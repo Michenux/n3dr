@@ -96,7 +96,6 @@ func pomDirs(p string) (strings.Builder, error) {
 
 // Upload posts an artifact as a multipart to a specific nexus3 repository
 func (n Nexus3) Upload(maven bool) error {
-	fmt.Println(maven)
 	if maven {
 		if err := n.detectFoldersWithPOM(n.Repository); err != nil {
 			return err

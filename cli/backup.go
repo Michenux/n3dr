@@ -177,14 +177,14 @@ func (n Nexus3) artifactName(url string) (string, string, error) {
 	}
 
 	re := regexp.MustCompile("^.*?/" + n.Repository + "/(.*)/(.+)$")
-	match := re.FindStringSubmatch(url)
-	if match == nil {
-		return "", "", errors.New("URL: '" + url + "' does not seem to contain an artifactName")
+	if !re.MatchString(url) {
+		return "", "", fmt.Errorf("URL: '%s' does not seem to contain an artifactName", url)
 	}
 
-	d := match[1]
-	f := match[2]
-	log.Debug("ArtifactName directory: " + d + " and file: " + f)
+	group := re.FindStringSubmatch(url)
+	d := group[1]
+	f := group[2]
+	log.Debugf("ArtifactName directory: '%s' and file: '%s'"+d, f)
 
 	return d, f, nil
 }

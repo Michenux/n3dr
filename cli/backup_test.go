@@ -144,11 +144,18 @@ func TestCreateArtifact(t *testing.T) {
 }
 
 func TestDownloadArtifact(t *testing.T) {
-	actualError := n.downloadArtifact(testDirDownload, "http://releasesoftwaremoreoften.com", "")
-	expectedError := "URL: 'http://releasesoftwaremoreoften.com' does not seem to contain an artifactName"
+	urls := []string{
+		"https://some-url/nexus/repository/maven-releases/archetype-catalog.xml",
+		"http://releasesoftwaremoreoften.com",
+	}
 
-	if actualError.Error() != expectedError {
-		t.Errorf(errMsgTxt, expectedError, actualError)
+	for _, url := range urls {
+		actualError := n.downloadArtifact(testDirDownload, url, "")
+		expectedError := "URL: '" + url + "' does not seem to contain an artifactName"
+
+		if actualError.Error() != expectedError {
+			t.Errorf(errMsgTxt, expectedError, actualError)
+		}
 	}
 }
 
